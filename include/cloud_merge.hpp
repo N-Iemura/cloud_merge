@@ -39,15 +39,16 @@ private:
     int param_clouds_;
     double param_hz_;
 
-    sensor_msgs::msg::PointCloud2 cloud_in1, cloud_in2, cloud_in3, cloud_in4, cloud_out;
+    sensor_msgs::msg::PointCloud2 cloud_in1;
+    sensor_msgs::msg::PointCloud2 cloud_in2;
+    sensor_msgs::msg::PointCloud2 cloud_in3;
+    sensor_msgs::msg::PointCloud2 cloud_in4;
+    sensor_msgs::msg::PointCloud2 cloud_out;
+
     bool cloud_in1_received = false;
     bool cloud_in2_received = false;
     bool cloud_in3_received = false;
     bool cloud_in4_received = false;
-    bool cloud_in1_received_recent = false;
-    bool cloud_in2_received_recent = false;
-    bool cloud_in3_received_recent = false;
-    bool cloud_in4_received_recent = false;
 };
 
 #endif // CLOUD_MERGE_HPP
