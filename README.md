@@ -8,4 +8,4 @@ ros2 launch cloud_merge cloud_merge.launch.py
 
 ## Note
 本プログラムではlaunchファイル内でcloud topicを最大4つまで指定することができ、  
-デフォルトでは```/sick_tim_L/tim_cloud_L```と```/multiScan/cloud_360```となっている。
+デフォルトのlaunchファイルでは```/sick_tim_L/tim_cloud_L```と```/multiScan/cloud_360```と指定している。
