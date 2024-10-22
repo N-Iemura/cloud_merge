@@ -1,5 +1,5 @@
 # cloud_merge
-ROS2(humble)上で複数の点群を統合するためのパッケージ
+ROS2(humble)上で複数の点群データを統合するためのパッケージ
 
 ## Usage
 ```
