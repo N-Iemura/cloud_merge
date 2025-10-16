@@ -53,18 +53,59 @@ private:
 
     void concatenatePointClouds() {
         pcl::PointCloud<pcl::PointXYZ> pcl_cloud_in1, pcl_cloud_in2, pcl_cloud_in3, pcl_cloud_in4, pcl_cloud_out;
+        std::string target_frame = "base_link";
 
         if (cloud_in1_received) {
             pcl::fromROSMsg(cloud_in1, pcl_cloud_in1);
+            if (cloud_in1.header.frame_id != target_frame) {
+                try {
+                    auto transform = tfBuffer->lookupTransform(
+                        target_frame, cloud_in1.header.frame_id,
+                        tf2::TimePointZero, std::chrono::milliseconds(100));
+                    pcl_ros::transformPointCloud(pcl_cloud_in1, pcl_cloud_in1, transform);
+                } catch (tf2::TransformException &ex) {
+                    RCLCPP_WARN(this->get_logger(), "cloud_in1 transform failed: %s", ex.what());
+                }
+            }
         }
         if (cloud_in2_received) {
             pcl::fromROSMsg(cloud_in2, pcl_cloud_in2);
+            if (cloud_in2.header.frame_id != target_frame) {
+                try {
+                    auto transform = tfBuffer->lookupTransform(
+                        target_frame, cloud_in2.header.frame_id,
+                        tf2::TimePointZero, std::chrono::milliseconds(100));
+                    pcl_ros::transformPointCloud(pcl_cloud_in2, pcl_cloud_in2, transform);
+                } catch (tf2::TransformException &ex) {
+                    RCLCPP_WARN(this->get_logger(), "cloud_in2 transform failed: %s", ex.what());
+                }
+            }
         }
         if (cloud_in3_received) {
             pcl::fromROSMsg(cloud_in3, pcl_cloud_in3);
+            if (cloud_in3.header.frame_id != target_frame) {
+                try {
+                    auto transform = tfBuffer->lookupTransform(
+                        target_frame, cloud_in3.header.frame_id,
+                        tf2::TimePointZero, std::chrono::milliseconds(100));
+                    pcl_ros::transformPointCloud(pcl_cloud_in3, pcl_cloud_in3, transform);
+                } catch (tf2::TransformException &ex) {
+                    RCLCPP_WARN(this->get_logger(), "cloud_in3 transform failed: %s", ex.what());
+                }
+            }
         }
         if (cloud_in4_received) {
             pcl::fromROSMsg(cloud_in4, pcl_cloud_in4);
+            if (cloud_in4.header.frame_id != target_frame) {
+                try {
+                    auto transform = tfBuffer->lookupTransform(
+                        target_frame, cloud_in4.header.frame_id,
+                        tf2::TimePointZero, std::chrono::milliseconds(100));
+                    pcl_ros::transformPointCloud(pcl_cloud_in4, pcl_cloud_in4, transform);
+                } catch (tf2::TransformException &ex) {
+                    RCLCPP_WARN(this->get_logger(), "cloud_in4 transform failed: %s", ex.what());
+                }
+            }
         }
 
         pcl_cloud_out = pcl_cloud_in1;
@@ -73,7 +114,8 @@ private:
         pcl_cloud_out += pcl_cloud_in4;
 
         pcl::toROSMsg(pcl_cloud_out, cloud_out);
-        cloud_out.header.frame_id = "base_link";  // フレームIDを設定
+        cloud_out.header.frame_id = target_frame;
+        cloud_out.header.stamp = this->now();
         pub_cloud_out->publish(cloud_out);
     }
 
